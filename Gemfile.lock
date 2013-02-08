@@ -1,0 +1,36 @@
+PATH
+  remote: .
+  specs:
+    fenix_pomodoro (0.0.0)
+      highline
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    columnize (0.3.6)
+    debugger (1.2.3)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.5)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.6)
+    diff-lcs (1.1.3)
+    highline (1.6.15)
+    rspec (2.12.0)
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    rspec-core (2.12.2)
+    rspec-expectations (2.12.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.12.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  debugger
+  fenix_pomodoro!
+  highline
+  rspec
