@@ -12,4 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "debugger"
   s.add_development_dependency "rspec"
+  s.add_dependency 'hashie'
+  s.add_dependency 'logging'
+  s.add_dependency 'highline'
 end

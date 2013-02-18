@@ -50,3 +50,5 @@ end
 
 Dir["{lib}/ilpomodoro/**/*.rb"].each { |path| require_relative path.gsub('lib/','') }
 require 'highline/import'
+require 'hashie'
+require 'logging'

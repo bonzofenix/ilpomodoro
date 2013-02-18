@@ -1,4 +1,3 @@
-require 'hashie'
 
 class Ilpomodoro::Timer
   @notifier = -> message { `terminal-notifier -message '#{message}'`}
@@ -35,7 +34,7 @@ class Ilpomodoro::Timer
         when :short_break
           5 * 60
         when :pomodoro
-          25 * 60
+          1 * 60
       end
     end
   end
