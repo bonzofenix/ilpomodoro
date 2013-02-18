@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'ilpomodoro'
+
+Ilpomodoro.new().tap do |p|
+  p.start
+end
