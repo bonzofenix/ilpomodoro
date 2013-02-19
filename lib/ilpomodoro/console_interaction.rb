@@ -1,10 +1,10 @@
-module Ilpomodoro::ConsoleInteraction
+module ConsoleInteraction
   def get_task
     ask('in this pomodoro i will be working on...')
   end
   
-  def current_task_finished? 
-    agree("have you finish #{@history.current_task}?(y/n)")
+  def finished?(task) 
+    agree("have you finish #{task}?(y/n)")
   end
 
   def was_doing_code?

@@ -1,32 +1,38 @@
 class Ilpomodoro::History
   attr_accessor :current_task
-
-  def initialize
-    @log = get_logger
-  end
   
   def wip(task)
-    @log.info(task, :wip)
+    log.info text_for(task, :wip)
   end
   
-  def start_session
-  end
-
   def close(task)
-    @log.info(task, :close)
+    log.info text_for(task, :closed)
   end
-
+  
   
   private
+  
+  def text_for(task, status)
+    "#{task}, #{status.to_s}"
+  end
 
-  def get_logger
-    Logging.logger.tap do |l|
-      l.root.level = :info
-      l.root.appenders = Logging.appenders.file(loggging_file_path) 
+  def log
+    @log unless @log.nil?
+    Logging.tap do |c|
+      c.format_as(:yaml)
+      c.logger.root.level = :info
+      c.logger.root.appenders = c.appenders.file(loggging_file_path) 
+      @log = c.logger[self]
     end
+    @log
   end
   
   def loggging_file_path
-    Rails.root.join('.ilpomodoro')
+    filename = '.ilpomodoro'
+    if Object.const_defined?('Rails')
+      Rails.root.join(filename)
+    else
+      Pathname.new(filename)
+    end
   end
 end

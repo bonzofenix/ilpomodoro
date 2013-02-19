@@ -1,28 +1,25 @@
-class Ilpomodoro
-  include Ilpomodoro::ConsoleInteraction
+require 'ilpomodoro/console_interaction'
 
-  def initialize
-    @pivotal = Pivotal.new
-    @history = History.new 
-  end
+class Ilpomodoro
+  include ConsoleInteraction
 
   def start
     loop do 
-      task = @pivotal.get_task
+      task = pivotal.get_task
       task ||= get_task 
-      @history.start_session      
+
       do_a_pomodoro
 
-      if current_task_finished?
-        @github.commit(task) if was_doing_code? and wants_to_commit?
-        @history.close(task)
+      if finished?(task)
+        github.commit(task) if was_doing_code? and wants_to_commit?
+        history.close(task)
       else
-        @history.wip(task)
+        history.wip(task)
       end 
       take_a_break
     end
-
   end
+  
   def do_a_pomodoro 
     Timer.do_a(:pomodoro)
   end
@@ -32,6 +29,14 @@ class Ilpomodoro
   end
 
   private 
+    
+  def history
+    @history ||= History.new
+  end
+
+  def pivotal 
+    @pivotal ||= Pivotal.new
+  end
 
   def  is_long_break?
     @iteration ||= 0
@@ -44,6 +49,5 @@ require 'logging'
 require 'highline/import'
 require 'hashie'
 require 'ilpomodoro/history'
-require 'ilpomodoro/console_interaction'
 require 'ilpomodoro/timer'
 require 'ilpomodoro/pivotal'

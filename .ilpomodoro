@@ -2,3 +2,10 @@
  INFO  Ilpomodoro::History : start session
  INFO  Ilpomodoro::History : start session
  INFO  Ilpomodoro::History : start session
+ INFO  Ilpomodoro::History : <Hash> 
+---
+:task: sdfsdf
+:status: :closed
+
+ INFO  Ilpomodoro::History : asdasd, wip
+ INFO  Ilpomodoro::History : asdlk lka, closed

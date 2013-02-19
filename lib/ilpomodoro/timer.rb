@@ -34,7 +34,7 @@ class Ilpomodoro::Timer
         when :short_break
           5 * 60
         when :pomodoro
-          1 * 60
+          25 * 60
       end
     end
   end
