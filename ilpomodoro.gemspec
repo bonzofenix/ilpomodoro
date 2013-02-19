@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.files        = Dir["{lib}/**/*.rb", "bin/*", "LICENSE", "*.md"]
   s.require_path = 'lib'
   s.homepage    = 'http://rubygems.org/gems/ilpomodoro'
+  s.executables  << 'ilpomodoro'
 
   s.add_development_dependency "debugger"
   s.add_development_dependency "rspec"

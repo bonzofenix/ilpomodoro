@@ -1,26 +1,21 @@
-class Ilpomodoro::Historm
+class Ilpomodoro::History
   attr_accessor :current_task
 
   def initialize
     @log = get_logger
   end
-
-  def add_task(task)
-    @current_task = task
+  
+  def wip(task)
+    @log.info(task, :wip)
   end
   
-  def add_or_create(task)
-    task ||= create_task 
-    add_task(task) 
-  end
-  
-  def close_task(task)
-    @current_task = nil
+  def start_session
   end
 
-  def create_task
-    ask('in this pomodoro i will be working on...')
+  def close(task)
+    @log.info(task, :close)
   end
+
   
   private
 

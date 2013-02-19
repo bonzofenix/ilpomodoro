@@ -1,4 +1,6 @@
 class Ilpomodoro
+  include Ilpomodoro::ConsoleInteraction
+
   def initialize
     @pivotal = Pivotal.new
     @history = History.new 
@@ -7,12 +9,15 @@ class Ilpomodoro
   def start
     loop do 
       task = @pivotal.get_task
-      @history.add_or_create(task)
+      task ||= get_task 
+      @history.start_session      
       do_a_pomodoro
 
       if current_task_finished?
         @github.commit(task) if was_doing_code? and wants_to_commit?
-        @history.close_task(task)
+        @history.close(task)
+      else
+        @history.wip(task)
       end 
       take_a_break
     end
@@ -25,18 +30,6 @@ class Ilpomodoro
   def take_a_break
     is_long_break? ? Timer.do_a(:long_break) : Timer.do_a(:short_break)
   end
-  
-  def current_task_finished? 
-    agree("have you finish #{@history.current_task}?(y/n)")
-  end
-
-  def was_doing_code?
-    agree("have you been doing code?(y/n)")
-  end
-
-  def wants_to_commit?
-    agree("do you want to commit?(y/n)")
-  end
 
   private 
 
@@ -47,8 +40,10 @@ class Ilpomodoro
   end
 end
 
-
-Dir["{lib}/ilpomodoro/**/*.rb"].each { |path| require_relative path.gsub('lib/','') }
+require 'logging'
 require 'highline/import'
 require 'hashie'
-require 'logging'
+require 'ilpomodoro/history'
+require 'ilpomodoro/console_interaction'
+require 'ilpomodoro/timer'
+require 'ilpomodoro/pivotal'

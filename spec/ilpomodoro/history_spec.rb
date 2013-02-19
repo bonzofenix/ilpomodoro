@@ -15,5 +15,15 @@ describe Ilpomodoro::History do
     Ilpomodoro::History.new
     File.exists?(Rails.root.join('.ilpomodoro')).should be_true
   end
+
+  describe '.add_task' do
+    it 'starts a pomodoro with the task'
+    
+  end
+
+  it 'entry' do
+    Ilpomodoro::History.new
+    File.exists?(Rails.root.join('.ilpomodoro')).should be_true
+  end
 end
 
