@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'hashie'
   s.add_dependency 'logging'
   s.add_dependency 'highline'
+  s.add_dependency 'terminal-notifier'
 end
