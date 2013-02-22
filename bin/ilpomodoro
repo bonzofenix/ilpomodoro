@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'ilpomodoro'
 
-Ilpomodoro.new().tap do |p|
-  p.start
-end
+ilpomodoro = Ilpomodoro.new
+ilpomodoro.start
+

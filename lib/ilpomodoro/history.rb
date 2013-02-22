@@ -1,6 +1,16 @@
 class Ilpomodoro::History
-  attr_accessor :current_task
+
+  def initialize
+    Logging.format_as(:yaml)
+    Logging.logger.root.level = :info
+    Logging.logger.root.appenders << get_appenders
+  end
+
   
+  def start(task)
+    log.info text_for(task, :start)
+  end
+
   def wip(task)
     log.info text_for(task, :wip)
   end
@@ -8,7 +18,17 @@ class Ilpomodoro::History
   def close(task)
     log.info text_for(task, :closed)
   end
-  
+
+  def get_appenders
+    filename = '.ilpomodoro'
+    rails_path = Rails.root.join(filename) if Object.const_defined?('Rails')
+    user_path = Pathname.new('~/filename')
+
+    Array.new.tap do |a|
+      a << Logging.appenders.file(user_path)     
+      a << Logging.appenders.file(rails_path) if rails_path
+    end
+  end
   
   private
   
@@ -17,22 +37,9 @@ class Ilpomodoro::History
   end
 
   def log
-    @log unless @log.nil?
-    Logging.tap do |c|
-      c.format_as(:yaml)
-      c.logger.root.level = :info
-      c.logger.root.appenders = c.appenders.file(loggging_file_path) 
-      @log = c.logger[self]
-    end
-    @log
+    @log ||= Logging.logger[self]
   end
+
+
   
-  def loggging_file_path
-    filename = '.ilpomodoro'
-    if Object.const_defined?('Rails')
-      Rails.root.join(filename)
-    else
-      Pathname.new(filename)
-    end
-  end
 end
