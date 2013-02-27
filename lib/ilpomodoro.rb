@@ -4,7 +4,7 @@ class Ilpomodoro
     init_project_management
 
     loop do 
-      task = choose_from_tasks
+      choose_from_tasks
       do_a_pomodoro
       if finished?(task)
         git.commit(task) if was_doing_code? and wants_to_commit?
@@ -17,11 +17,10 @@ class Ilpomodoro
   end
 
   def choose_from_tasks
-    tasks = Ilpomodoro::ProjectManagement.tasks
 
-    choose do |m|
+    @task = choose do |m|
       m.header= 'which of the following task will you be working on?'
-      tasks.each{ |t| m.choice t }
+      Ilpomodoro::ProjectManagement.tasks.each{ |t| m.choice t }
       m.choice 'i would like to do other task...'
     end
   end

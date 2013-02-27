@@ -13,6 +13,7 @@ describe Ilpomodoro do
     end
 
     it 'returns true unless configuration file exists' do
+      pending
       `touch .ilpomodoro-config`  
       `rm .ilpomodoro-config`
       ilpomodoro.first_time?.should be_true
@@ -20,10 +21,6 @@ describe Ilpomodoro do
   end
 
   describe 'choose_from_tasks' do
-    it 'looks for managements task' do
-      Ilpomodoro::ProjectManagement.should_receive(:tasks)
-      ilpomodoro.choose_from_tasks
-    end
 
     it 'displays the possible tasks' do
       ilpomodoro.should_receive(:choose)

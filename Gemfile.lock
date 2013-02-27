@@ -44,6 +44,7 @@ GEM
       nokogiri (>= 1.5.5)
       nokogiri-happymapper (>= 0.5.4)
       rest-client (~> 1.6.0)
+    rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.12.0)
@@ -62,4 +63,5 @@ PLATFORMS
 DEPENDENCIES
   debugger
   ilpomodoro!
+  rake
   rspec

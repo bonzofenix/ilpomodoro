@@ -33,7 +33,11 @@ class Ilpomodoro::History
   private
   
   def text_for(task, status)
-    "#{task}, #{status.to_s}"
+    "#{username}, #{task}, #{status.to_s}"
+  end
+
+  def username
+    `git config user.name`.strip 
   end
 
   def log
