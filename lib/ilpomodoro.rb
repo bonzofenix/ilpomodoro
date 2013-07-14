@@ -1,9 +1,13 @@
 class Ilpomodoro
   attr_reader :task
-  def start
-    init_project_management
 
-    loop do 
+  def initialize
+    init_project_management
+  end
+
+  def start
+
+    loop do
       choose_from_tasks
       do_a_pomodoro
       if finished?(task)
@@ -11,7 +15,7 @@ class Ilpomodoro
         history.close(task)
       else
         history.wip(task)
-      end 
+      end
       take_a_break
     end
   end
@@ -26,23 +30,15 @@ class Ilpomodoro
   end
 
   def init_project_management
-    Ilpomodoro::ProjectManagement.tap do |klass|
-      klass.choose_from_services
-      klass.login
-      klass.choose_from_projects
-    end
+    Ilpomodoro::ProjectManagement.init
   end
 
-  def do_a_pomodoro 
+  def do_a_pomodoro
     Timer.do_a(:pomodoro)
   end
 
   def take_a_break
     is_long_break? ? Timer.do_a(:long_break) : Timer.do_a(:short_break)
-  end
-
-  def first_time? 
-   File.exists?('.ilpomodoro-configs')
   end
 
   def has_pivotaltracker?
@@ -57,8 +53,8 @@ class Ilpomodoro
     agree("do you want to commit?(y/n)")
   end
 
-  private 
-  
+  private
+
   def history
     @history ||= History.new
   end
@@ -73,7 +69,7 @@ class Ilpomodoro
     ask('in this pomodoro i will be working on...')
   end
 
-  def finished?(task) 
+  def finished?(task)
     agree("have you finish #{task}?(y/n)")
   end
 end

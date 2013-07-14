@@ -13,7 +13,7 @@ describe Ilpomodoro::History do
       history.wip('this task has not been finished yet' )
       log_output.should =~ /bonzofenix, this task has not been finished yet, wip/
     end
-      
+
     it 'logs a started task' do
       history.start('this task has just start' )
       log_output.should =~ /bonzofenix, this task has just start, start/
@@ -24,17 +24,10 @@ describe Ilpomodoro::History do
       log_output.should =~ /bonzofenix, this task has been closed, closed/
     end
   end
-    
+
   describe 'when creating logging files' do
-    before{ history }
-
-    it 'creates the file in the root of the project' do
-      pending
-      history.get_appenders.count.should == 2
-    end
-
     it 'creates the file in the users folder' do
-      history.get_appenders.count.should == 1
+      history.get_appenders.length.should == 2
     end
   end
 end

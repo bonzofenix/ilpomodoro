@@ -6,6 +6,14 @@ describe Ilpomodoro::ProjectManagement do
   let(:pivotal_tasks){ [pivotal_task] }
   let(:pivotal_project){ PivotalTracker::Project.new( name: 'a project') }
   let(:pivotal_projects){ [pivotal_project] }
+  it '.init' do
+      Ilpomodoro::ProjectManagement.tap do |klass|
+        klass.should_receive(:login)
+        klass.should_receive(:choose_from_services)
+        klass.should_receive(:choose_from_projects)
+      end
+      Ilpomodoro::ProjectManagement.init
+  end
 
   it '.login' do
     project_management.should_receive(:ask).and_return('a username', 'a password')

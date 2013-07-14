@@ -7,7 +7,7 @@ end
 
 PivotalTracker::Story.class_eval do
   def to_s
-    "(#{self.current_state}) #{self.name}"    
+    "(#{self.current_state}) #{self.name}"
   end
 end
 
@@ -16,15 +16,22 @@ class Ilpomodoro::ProjectManagement
   @@project = nil
 
   class << self
+
+    def init
+      choose_from_services
+      login
+      choose_from_projects
+    end
+
     def login
-      PivotalTracker::Client.token(get_username, get_password)   
+      PivotalTracker::Client.token(get_username, get_password)
     end
 
     def choose_from_projects
       @@project = choose do |m|
         m.header = 'in which project you will be working on?'
         projects.each do |p|
-          m.choice p 
+          m.choice p
         end
       end
     end
@@ -42,7 +49,7 @@ class Ilpomodoro::ProjectManagement
       project.stories.all(current_state: ['unscheduled','started'])
     end
 
-    def services 
+    def services
       ['pivotaltracker']
     end
 
@@ -53,11 +60,11 @@ class Ilpomodoro::ProjectManagement
     def get_username
       ask("enter your #{@service} username:   ")
     end
-    
+
     def get_password
-      ask("enter your #{@service} password:   "){ |q| q.echo = 'x' } 
+      ask("enter your #{@service} password:   "){ |q| q.echo = 'x' }
     end
-    
+
     def project
       @@project
     end
