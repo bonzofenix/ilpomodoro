@@ -2,6 +2,7 @@ class Ilpomodoro
   attr_reader :task
 
   def initialize
+    @tracker = Ilpomodoro::PivotalTracker.new
     init_project_management
   end
 

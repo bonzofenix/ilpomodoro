@@ -1,7 +1,5 @@
-require 'rubygems'
-require 'debugger'
 require 'bundler/setup'
-require 'ilpomodoro' 
+require 'ilpomodoro'
 require 'rspec/logging_helper'
 
 Dir["./spec/support/**/*.rb"].sort.each {|f| require f}

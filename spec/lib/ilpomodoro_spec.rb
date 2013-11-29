@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Ilpomodoro do
   let(:ilpomodoro) do
-    Ilpomodoro.new
+    described_class.new
   end
 
   before do

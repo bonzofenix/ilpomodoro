@@ -11,7 +11,7 @@ PivotalTracker::Story.class_eval do
   end
 end
 
-class Ilpomodoro::ProjectManagement
+class Ilpomodoro::ProjectTracker
   @@service = nil
   @@project = nil
 
