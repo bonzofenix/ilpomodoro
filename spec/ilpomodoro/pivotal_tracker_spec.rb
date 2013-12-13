@@ -1,32 +1,28 @@
 require 'spec_helper'
 
-describe Ilpomodoro::ProjectManagement do
-  let(:project_management){ Ilpomodoro::ProjectManagement }
+describe Ilpomodoro::PivotalTracker do
+  let(:pivotal_tracker){ described_class.new }
   let(:pivotal_task){ PivotalTracker::Story.new( name: 'a task') }
   let(:pivotal_tasks){ [pivotal_task] }
   let(:pivotal_project){ PivotalTracker::Project.new( name: 'a project') }
   let(:pivotal_projects){ [pivotal_project] }
-  it '.init' do
-      Ilpomodoro::ProjectManagement.tap do |klass|
-        klass.should_receive(:login)
-        klass.should_receive(:choose_from_services)
-        klass.should_receive(:choose_from_projects)
-      end
-      Ilpomodoro::ProjectManagement.init
+
+  it 'initialize' do
+    described_class.any_instance.should_receive(:login)
+    described_class.any_instance.should_receive(:choose_from_services)
+    described_class.any_instance.should_receive(:choose_from_projects)
+    described_class.new
   end
 
   it '.login' do
-    project_management.should_receive(:ask).and_return('a username', 'a password')
+    pending
+    pivotal_tracker.should_receive(:ask).and_return('a username', 'a password')
     PivotalTracker::Client.should_receive(:token).with('a username', 'a password')
-    project_management.login
-  end
-
-  it '.services' do
-    project_management.services.should == ['pivotaltracker']
+    pivota_tracker.login
   end
 
   it '.tasks' do
-    Ilpomodoro::ProjectManagement.stub(project: stub(stories: stub(all: pivotal_tasks)))
+    pivotal_tracker.stub(project: stub(stories: stub(all: pivotal_tasks)))
     project_management.tasks.should == pivotal_tasks
   end
   it '.projects' do

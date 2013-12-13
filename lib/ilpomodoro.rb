@@ -7,7 +7,6 @@ class Ilpomodoro
   end
 
   def start
-
     loop do
       choose_from_tasks
       do_a_pomodoro
@@ -78,7 +77,7 @@ end
 require 'logging'
 require 'highline/import'
 require 'hashie'
+require 'pivotal-tracker'
 require 'ilpomodoro/history'
 require 'ilpomodoro/timer'
-require 'ilpomodoro/project_managment'
-require 'pivotal-tracker'
+require 'ilpomodoro/pivotal_tracker'
