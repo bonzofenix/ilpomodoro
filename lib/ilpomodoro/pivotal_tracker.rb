@@ -1,4 +1,5 @@
 require 'pivotal-tracker'
+
 PivotalTracker::Project.class_eval do
   def to_s
     self.name
@@ -12,43 +13,46 @@ PivotalTracker::Story.class_eval do
 end
 
 class Ilpomodoro::PivotalTracker
-  @@project = nil
+  def initialize
+    @h = HighLine.new
+  end
 
-    def initialize
-      login
-      choose_from_projects
-    end
+  def login
+    PivotalTracker::Client.token(username, password)
+  end
 
-    def login
-      PivotalTracker::Client.token(get_username, get_password)
-    end
-
-    def choose_from_projects
-      @@project = choose do |m|
-        m.header = 'in which project you will be working on?'
-        projects.each do |p|
-          m.choice p
-        end
+  def project
+    @project ||= @h.choose do |m|
+      m.header = 'in which project you will be working on?'
+      projects.each do |p|
+        m.choice p
       end
     end
+  end
 
-    def tasks
-      project.stories.all(current_state: ['unscheduled','started'])
-    end
-
-    def projects
-      PivotalTracker::Project.all
-    end
-
-    def get_username
-      ask("enter your pivotaltracker  username:   ")
-    end
-
-    def get_password
-      ask("enter your pivotaltracker  password:   "){ |q| q.echo = 'x' }
-    end
-
-    def project
-      @@project
+  def story
+    @h.choose do |m|
+      m.header= 'which of the following task will you be working on?'
+      storied.each do |t|
+        m.choice t
+      end
+      m.choice 'i would like to do other task...'
     end
   end
+
+  def stories
+    project.stories.all(current_state: ['unscheduled','started'])
+  end
+
+  def projects
+    PivotalTracker::Project.all
+  end
+
+  def username
+    @h.ask("enter your pivotaltracker  username:")
+  end
+
+  def password
+    @password ||= @h.ask("enter your pivotaltracker  password:"){ |q| q.echo = 'x' }
+  end
+end

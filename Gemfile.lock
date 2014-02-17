@@ -8,20 +8,21 @@ PATH
       pivotal-tracker
       terminal-notifier
 
+PATH
+  remote: ~/workspace/cancun
+  specs:
+    cancun (0.0.5)
+      sourcify
+
 GEM
   remote: https://rubygems.org/
   specs:
     builder (3.2.2)
-    columnize (0.3.6)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
-    debugger (1.6.2)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.3)
-    debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
     diff-lcs (1.2.4)
+    file-tail (1.0.12)
+      tins (~> 0.5)
     happymapper (0.4.1)
       libxml-ruby (~> 2.0)
     hashie (2.0.5)
@@ -59,14 +60,27 @@ GEM
     rspec-expectations (2.14.3)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
+    ruby2ruby (2.0.7)
+      ruby_parser (~> 3.1)
+      sexp_processor (~> 4.0)
+    ruby_parser (3.3.0)
+      sexp_processor (~> 4.1)
     safe_yaml (0.9.7)
+    sexp_processor (4.4.1)
+    sourcify (0.5.0)
+      file-tail (>= 1.0.5)
+      ruby2ruby (>= 1.2.5)
+      ruby_parser (>= 2.0.5)
+      sexp_processor (>= 3.0.5)
     terminal-notifier (1.5.1)
+    tins (0.13.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  debugger
+  cancun!
   ilpomodoro!
   rake
   rspec
+  rspec-core

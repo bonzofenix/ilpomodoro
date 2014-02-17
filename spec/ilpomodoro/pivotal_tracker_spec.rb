@@ -1,58 +1,48 @@
 require 'spec_helper'
 
 describe Ilpomodoro::PivotalTracker do
-  let(:pivotal_tracker){ described_class.new }
-  let(:pivotal_task){ PivotalTracker::Story.new( name: 'a task') }
-  let(:pivotal_tasks){ [pivotal_task] }
-  let(:pivotal_project){ PivotalTracker::Project.new( name: 'a project') }
-  let(:pivotal_projects){ [pivotal_project] }
+  include Cancun::Highline
+  let(:story){ PivotalTracker::Story.new( name: 'a task') }
+  let(:stories){ [story] }
+  let(:project) do
+    PivotalTracker::Project.new( name: 'project').tap do |p|
+      p.stub( stories: double(all: stories))
+    end
+  end
 
-  it 'initialize' do
-    described_class.any_instance.should_receive(:login)
-    described_class.any_instance.should_receive(:choose_from_services)
-    described_class.any_instance.should_receive(:choose_from_projects)
+  let(:other_project){ PivotalTracker::Project.new( name: 'other project') }
+  let(:projects){ [project, other_project] }
+
+  let(:pivotal_tracker) do
     described_class.new
   end
 
+  before do
+    PivotalTracker::Project.stub(all: projects)
+    init_cancun_highline
+  end
+
+
   it '.login' do
-    pending
-    pivotal_tracker.should_receive(:ask).and_return('a username', 'a password')
-    PivotalTracker::Client.should_receive(:token).with('a username', 'a password')
-    pivota_tracker.login
+    PivotalTracker::Client.should_receive(:token)
+    execute do
+      pivotal_tracker.login
+    end.and_type "username", 'password'
   end
 
-  it '.tasks' do
-    pivotal_tracker.stub(project: stub(stories: stub(all: pivotal_tasks)))
-    project_management.tasks.should == pivotal_tasks
-  end
-  it '.projects' do
-    PivotalTracker::Project.should_receive(:all).and_return(pivotal_projects)
-    project_management.projects.should == pivotal_projects
-  end
-
-  describe '.choose_from_services' do
-    it 'display the options' do
-    project_management.should_receive :choose
-    project_management.choose_from_services
+  describe 'when chooseing project' do
+    before do
+      execute do
+        pivotal_tracker.project
+      end.and_type "1"
     end
 
-    it 'saves into a class variable the choosen project' do
-      project_management.should_receive(:choose).and_return('the project')
-      expect do
-        project_management.choose_from_projects
-      end.to change{Ilpomodoro::ProjectManagement.project }.from(nil).to('the project')
+    it 'selects the correct project' do
+      expect(pivotal_tracker.project).to eq(project)
     end
 
-    it 'saves into a class variable the choosen service' do
-      project_management.should_receive(:choose).and_return('pivotaltracker')
-      expect do
-        project_management.choose_from_services
-      end.to change{project_management.service }.from(nil).to('pivotaltracker')
+    it 'list all the task of a project' do
+      expect(pivotal_tracker.stories).to eq(stories)
     end
-  end
-
-  it '.choose_from_projects' do
-    project_management.should_receive :choose
-    project_management.choose_from_projects
   end
 end

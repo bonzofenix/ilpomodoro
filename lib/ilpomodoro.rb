@@ -1,48 +1,22 @@
 class Ilpomodoro
   attr_reader :task
-
-  def initialize
-    @tracker = Ilpomodoro::PivotalTracker.new
-    init_project_management
-  end
-
   def start
     loop do
-      choose_from_tasks
+      task = tracker.story
       do_a_pomodoro
       if finished?(task)
         git.commit(task) if was_doing_code? and wants_to_commit?
-        history.close(task)
+        # history.close(task)
       else
-        history.wip(task)
+        # history.wip(task)
       end
       take_a_break
     end
   end
 
-  def choose_from_tasks
-
-    @task = choose do |m|
-      m.header= 'which of the following task will you be working on?'
-      Ilpomodoro::ProjectManagement.tasks.each{ |t| m.choice t }
-      m.choice 'i would like to do other task...'
-    end
-  end
-
-  def init_project_management
-    Ilpomodoro::ProjectManagement.init
-  end
 
   def do_a_pomodoro
     Timer.do_a(:pomodoro)
-  end
-
-  def take_a_break
-    is_long_break? ? Timer.do_a(:long_break) : Timer.do_a(:short_break)
-  end
-
-  def has_pivotaltracker?
-    agree('Do you have tasks in pivotaltracker?')
   end
 
   def was_doing_code?
@@ -54,6 +28,9 @@ class Ilpomodoro
   end
 
   private
+  def tracker
+    @tracker ||= Ilpomodoro::PivotalTracker.new
+  end
 
   def history
     @history ||= History.new
@@ -65,8 +42,8 @@ class Ilpomodoro
     (@iteration % 3== 0)
   end
 
-  def get_task
-    ask('in this pomodoro i will be working on...')
+  def take_a_break
+    is_long_break? ? Timer.do_a(:long_break) : Timer.do_a(:short_break)
   end
 
   def finished?(task)
@@ -74,10 +51,8 @@ class Ilpomodoro
   end
 end
 
-require 'logging'
-require 'highline/import'
+require 'highline'
 require 'hashie'
-require 'pivotal-tracker'
 require 'ilpomodoro/history'
 require 'ilpomodoro/timer'
 require 'ilpomodoro/pivotal_tracker'

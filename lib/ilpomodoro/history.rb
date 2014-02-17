@@ -1,5 +1,6 @@
-class Ilpomodoro::History
+require 'logging'
 
+class Ilpomodoro::History
   def initialize
     Logging.format_as(:yaml)
     Logging.logger.root.level = :info
@@ -43,7 +44,4 @@ class Ilpomodoro::History
   def log
     @log ||= Logging.logger[self]
   end
-
-
-
 end

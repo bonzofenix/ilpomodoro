@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'ilpomodoro'
 require 'rspec/logging_helper'
+require 'cancun'
 
 Dir["./spec/support/**/*.rb"].sort.each {|f| require f}
 

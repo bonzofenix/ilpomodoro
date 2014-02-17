@@ -14,9 +14,10 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/ilpomodoro'
   s.executables  << 'ilpomodoro'
 
-  s.add_development_dependency "debugger"
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec-core"
   s.add_development_dependency "rake"
+  s.add_development_dependency "cancun"
   s.add_dependency 'hashie'
   s.add_dependency 'logging'
   s.add_dependency 'highline'
