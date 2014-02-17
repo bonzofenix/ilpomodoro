@@ -33,7 +33,7 @@ class Ilpomodoro::PivotalTracker
   def story
     @h.choose do |m|
       m.header= 'which of the following task will you be working on?'
-      storied.each do |t|
+      stories.each do |t|
         m.choice t
       end
       m.choice 'i would like to do other task...'

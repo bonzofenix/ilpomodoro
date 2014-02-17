@@ -1,23 +1,34 @@
 class Ilpomodoro
   attr_reader :task
+
+  def initialize
+    @h = HighLine.new
+  end
+
+  def work_offline?
+    @work_offline ||= @h.agree('do you want to work offline?')
+  end
+
+  def task
+    @h.ask 'i will be working on...' if work_offline?
+  end
+
   def start
     loop do
       task = tracker.story
       do_a_pomodoro
       if finished?(task)
         git.commit(task) if was_doing_code? and wants_to_commit?
+        #tracker.close(task)
         # history.close(task)
       else
+        #tracker.close(task)
         # history.wip(task)
       end
       take_a_break
     end
   end
 
-
-  def do_a_pomodoro
-    Timer.do_a(:pomodoro)
-  end
 
   def was_doing_code?
     agree("have you been doing code?(y/n)")
@@ -49,9 +60,12 @@ class Ilpomodoro
   def finished?(task)
     agree("have you finish #{task}?(y/n)")
   end
+
+  def do_a_pomodoro
+    Timer.do_a(:pomodoro)
+  end
 end
 
-require 'highline'
 require 'hashie'
 require 'ilpomodoro/history'
 require 'ilpomodoro/timer'
