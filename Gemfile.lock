@@ -8,16 +8,12 @@ PATH
       pivotal-tracker
       terminal-notifier
 
-PATH
-  remote: ~/workspace/cancun
-  specs:
-    cancun (0.0.5)
-      sourcify
-
 GEM
   remote: https://rubygems.org/
   specs:
     builder (3.2.2)
+    cancun (0.0.6)
+      sourcify
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     diff-lcs (1.2.4)
@@ -63,7 +59,7 @@ GEM
     ruby2ruby (2.0.7)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)
-    ruby_parser (3.3.0)
+    ruby_parser (3.4.1)
       sexp_processor (~> 4.1)
     safe_yaml (0.9.7)
     sexp_processor (4.4.1)
@@ -73,13 +69,13 @@ GEM
       ruby_parser (>= 2.0.5)
       sexp_processor (>= 3.0.5)
     terminal-notifier (1.5.1)
-    tins (0.13.1)
+    tins (0.13.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  cancun!
+  cancun
   ilpomodoro!
   rake
   rspec
