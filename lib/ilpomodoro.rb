@@ -9,13 +9,18 @@ class Ilpomodoro
     @work_offline ||= @h.agree('do you want to work offline?')
   end
 
-  def task
-    @h.ask 'i will be working on...' if work_offline?
+  def get_task
+    if work_offline?
+    @h.ask 'i will be working on...'
+    else
+      tracker.login
+      tracker.story
+  end
   end
 
   def start
     loop do
-      task = tracker.story
+      task = get_task
       do_a_pomodoro
       if finished?(task)
         git.commit(task) if was_doing_code? and wants_to_commit?
@@ -67,6 +72,7 @@ class Ilpomodoro
 end
 
 require 'hashie'
+require 'highline'
 require 'ilpomodoro/history'
 require 'ilpomodoro/timer'
 require 'ilpomodoro/pivotal_tracker'

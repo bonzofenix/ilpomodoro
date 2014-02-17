@@ -9,7 +9,8 @@ describe Ilpomodoro do
   end
   let(:ilpomodoro) { described_class.new }
 
-  it 'work offline' do
+  describe '.tracker' do
+    it 'logins tracker the first time'
   end
 
   describe 'when working offline' do
