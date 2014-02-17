@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = 'ilpomodoro'
-  s.version     = '0.0.0'
+  s.version     = '0.0.1'
   s.authors     = ['Alan Moran']
   s.email       = 'bonzofenix@gmail.com'
   s.summary     =  'Pomodoro technique on pivotal tracker'
