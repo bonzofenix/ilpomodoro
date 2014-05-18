@@ -1,4 +1,5 @@
 require 'pivotal-tracker'
+# require 'ilpomodoro/task_tracker'
 
 PivotalTracker::Project.class_eval do
   def to_s
@@ -12,17 +13,14 @@ PivotalTracker::Story.class_eval do
   end
 end
 
-class Ilpomodoro::PivotalTracker
-  def initialize
-    @h = HighLine.new
-  end
+class Ilpomodoro::Tracker::PivotalTracker < Ilpomodoro::TaskTracker
 
   def login
     PivotalTracker::Client.token(username, password)
   end
 
   def project
-    @project ||= @h.choose do |m|
+    @project ||= choose do |m|
       m.header = 'in which project you will be working on?'
       projects.each do |p|
         m.choice p
@@ -31,7 +29,7 @@ class Ilpomodoro::PivotalTracker
   end
 
   def story
-    @h.choose do |m|
+    choose do |m|
       m.header= 'which of the following task will you be working on?'
       stories.each do |t|
         m.choice t
@@ -48,11 +46,4 @@ class Ilpomodoro::PivotalTracker
     PivotalTracker::Project.all
   end
 
-  def username
-    @h.ask("enter your pivotaltracker  username:")
-  end
-
-  def password
-    @password ||= @h.ask("enter your pivotaltracker  password:"){ |q| q.echo = 'x' }
-  end
 end

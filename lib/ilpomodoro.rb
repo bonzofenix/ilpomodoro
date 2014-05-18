@@ -11,11 +11,11 @@ class Ilpomodoro
 
   def get_task
     if work_offline?
-    @h.ask 'i will be working on...'
+      @h.ask 'i will be working on...'
     else
       tracker.login
       tracker.story
-  end
+    end
   end
 
   def start
@@ -45,7 +45,7 @@ class Ilpomodoro
 
   private
   def tracker
-    @tracker ||= Ilpomodoro::PivotalTracker.new
+    @tracker ||= Ilpomodoro::TaskTracker.tracker
   end
 
   def history
@@ -71,8 +71,15 @@ class Ilpomodoro
   end
 end
 
+class Ilpomodoro
+  module Tracker
+  end
+end
+
 require 'hashie'
 require 'highline'
 require 'ilpomodoro/history'
 require 'ilpomodoro/timer'
-require 'ilpomodoro/pivotal_tracker'
+require 'ilpomodoro/task_tracker'
+require 'ilpomodoro/tracker/pivotal_tracker'
+require 'ilpomodoro/tracker/todoist'

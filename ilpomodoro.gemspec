@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'highline'
   s.add_dependency 'terminal-notifier'
   s.add_dependency 'pivotal-tracker'
+  s.add_dependency 'todoist'
 end
