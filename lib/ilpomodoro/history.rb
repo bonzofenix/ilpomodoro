@@ -8,16 +8,16 @@ class Ilpomodoro::History
   end
 
 
-  def start(task)
-    log.info text_for(task, :start)
+  def start(iteration, task)
+    log.info text_for(iteration, task, :start)
   end
 
-  def wip(task)
-    log.info text_for(task, :wip)
+  def wip(iteration, task)
+    log.info text_for(iteration, task, :wip)
   end
 
-  def close(task)
-    log.info text_for(task, :closed)
+  def close(iteration, task)
+    log.info text_for(iteration, task, :closed)
   end
 
   def get_appenders
@@ -33,8 +33,8 @@ class Ilpomodoro::History
 
   private
 
-  def text_for(task, status)
-    "#{username}, #{task}, #{status.to_s}"
+  def text_for(iteration, task, status)
+    "{iteration}, #{username}, #{task}, #{status.to_s}"
   end
 
   def username

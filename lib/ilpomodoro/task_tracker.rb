@@ -1,28 +1,21 @@
-require 'forwardable'
-
 class Ilpomodoro::TaskTracker
 
-  extend Forwardable
-
-  def initialize
-    @highline = HighLine.new
-  end
-
-  # def_delegator :highline, :ask, :choose
-  # def self.highline
-  #   @highline = HighLine.new
-  # end
+  include Ilpomodoro::HighlineHelper
 
   def username
-    @username ||= @highline.ask("enter your pivotaltracker  username:")
+    @username ||= ask("enter your #{self.name}  username:")
   end
 
   def password
-    @password ||= @highline.ask("enter your pivotaltracker  password:"){ |q| q.echo = 'x' }
+    @password ||= ask("enter your #{self.name}  password:"){ |q| q.echo = 'x' }
   end
 
   def name
     'undefined'
+  end
+
+  def choose_task
+    raise 'not implemented'
   end
 
   def self.tracker

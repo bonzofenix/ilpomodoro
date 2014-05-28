@@ -1,5 +1,4 @@
 require 'pivotal-tracker'
-# require 'ilpomodoro/task_tracker'
 
 PivotalTracker::Project.class_eval do
   def to_s
