@@ -21,6 +21,7 @@ class Ilpomodoro
   include Ilpomodoro::HighlineHelper
 
   def initialize
+    @pomodoro_number = 0
     tracker.authenticate!
   end
 
