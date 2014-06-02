@@ -8,6 +8,14 @@ class Ilpomodoro::History
   end
 
 
+  def start_pomodoro(task)
+    
+  end
+
+  def end_pomodoro(task)
+
+  end
+
   def start(iteration, task)
     log.info text_for(iteration, task, :start)
   end

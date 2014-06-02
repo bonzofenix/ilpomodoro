@@ -1,6 +1,11 @@
+
 class Ilpomodoro::TaskTracker
 
+  
+
   include Ilpomodoro::HighlineHelper
+  
+  attr_accessor :current_task, :current_project
 
   def username
     @username ||= ask("enter your #{self.name}  username:")
@@ -11,18 +16,24 @@ class Ilpomodoro::TaskTracker
   end
 
   def name
-    'undefined'
+    raise :not_implemented
   end
 
   def choose_task
-    raise 'not implemented'
+    raise :not_implemented
+  end
+
+  def choose_task
+    raise :not_implemented
   end
 
   def self.tracker
     @tracker ||= HighLine.new.choose do |menu|
       menu.choice('PivotalTracker') do Ilpomodoro::Tracker::PivotalTracker.new end
       menu.choice('Todoist') do Ilpomodoro::Tracker::Todoist.new end 
+      menu.choice('Offline') do Ilpomodoro::Tracker::Offline.new end 
     end
   end
 
 end
+

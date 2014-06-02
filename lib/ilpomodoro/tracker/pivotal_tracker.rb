@@ -12,14 +12,16 @@ PivotalTracker::Story.class_eval do
   end
 end
 
+
+
 class Ilpomodoro::Tracker::PivotalTracker < Ilpomodoro::TaskTracker
 
-  def login
+  def authenticate!
     PivotalTracker::Client.token(username, password)
   end
 
-  def project
-    @project ||= choose do |m|
+  def choose_project
+    @current_project = choose do |m|
       m.header = 'in which project you will be working on?'
       projects.each do |p|
         m.choice p
@@ -27,8 +29,8 @@ class Ilpomodoro::Tracker::PivotalTracker < Ilpomodoro::TaskTracker
     end
   end
 
-  def story
-    choose do |m|
+  def choose_task
+    @current_task = choose do |m|
       m.header= 'which of the following task will you be working on?'
       stories.each do |t|
         m.choice t
@@ -40,6 +42,7 @@ class Ilpomodoro::Tracker::PivotalTracker < Ilpomodoro::TaskTracker
   def stories
     project.stories.all(current_state: ['unscheduled','started'])
   end
+  alias_method :tasks, :stories
 
   def projects
     PivotalTracker::Project.all

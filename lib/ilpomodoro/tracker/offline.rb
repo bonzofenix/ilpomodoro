@@ -1,7 +1,7 @@
 require 'json'
 require 'ilpomodoro/tracker/todoist_patch'
 
-class Ilpomodoro::Tracker::Todoist < Ilpomodoro::TaskTracker
+class Ilpomodoro::Tracker::Offline < Ilpomodoro::TaskTracker
 
   def authenticate!
     Todoist::Base.login(username, password)
@@ -19,15 +19,14 @@ class Ilpomodoro::Tracker::Todoist < Ilpomodoro::TaskTracker
   def choose_task
     @current_task = choose do |m|
       m.header = 'which of the following task will you be working on?'
-      tasks.each do |t|
+      stories.each do |t|
         m.choice t
       end
       m.choice 'i would like to do other task...'
     end
   end
 
-  def tasks
-    self.choose_project if current_project.nil?
+  def stories
     current_project.tasks
   end
 

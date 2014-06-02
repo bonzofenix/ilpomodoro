@@ -1,25 +1,31 @@
 class Ilpomodoro
+  class Tracker
+  end
+end
+
+require 'hashie'
+require 'highline'
+require 'ilpomodoro/highline_helper'
+require 'ilpomodoro/history'
+require 'ilpomodoro/timer'
+require 'ilpomodoro/task_tracker'
+require 'ilpomodoro/tracker/todoist_patch'
+require 'ilpomodoro/tracker/todoist'
+require 'ilpomodoro/tracker/pivotal_tracker'
+require 'ilpomodoro/tracker/offline'
+
+
+class Ilpomodoro
   attr_reader :current_task, :pomodoro_number
 
   include Ilpomodoro::HighlineHelper
 
   def initialize
-    @pomodoro_number = 1
-    unless work_offline?
-      tracker.login
-    end
-  end
-
-  def work_offline?
-    @work_offline ||= @highline.agree('do you want to work offline? (y/n)')
+    tracker.authenticate!
   end
 
   def choose_task
-    if work_offline?
-      @current_task = ask('i will be working on...')
-    else
-      tracker.choose_task
-    end
+    tracker.choose_task
   end
 
   def start
@@ -53,9 +59,7 @@ class Ilpomodoro
   end
 
   def is_long_break?
-    @pomodoro_number ||= 0
-    @pomodoro_number += 1
-    @pomodoro_number % 3 == 0
+    @pomodoro_number % 4 == 0
   end
 
   def take_a_break
@@ -70,20 +74,16 @@ class Ilpomodoro
     if @current_task.nil? || wants_to_change_task?
       @current_task = choose_task
     end
+    history.start_pomodoro(@current_task)
     Timer.do_a(:pomodoro)
+    @pomodoro_number += 1
+    history.add_comment if add_comment?
+    history.finish_pomodoro(@current_task)
+  end
+
+  def add_comment?
+    agree('do you want to add comment? (y/n)')
   end
 end
 
-class Ilpomodoro
-  module Tracker
-  end
-end
 
-require 'hashie'
-require 'highline'
-require 'ilpomodoro/history'
-require 'ilpomodoro/timer'
-require 'ilpomodoro/highline_helper'
-require 'ilpomodoro/task_tracker'
-require 'ilpomodoro/tracker/pivotal_tracker'
-require 'ilpomodoro/tracker/todoist'
